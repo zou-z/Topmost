@@ -129,10 +129,12 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="NotifyIcon.cpp" />
     <ClCompile Include="WindowListUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="NotifyIcon.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="WindowListUtil.h" />
   </ItemGroup>

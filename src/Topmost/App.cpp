@@ -9,7 +9,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
     // 初始化主窗口
     DWORD errorCode = S_OK;
-    auto mainWindow = new App::MainWindow();
+    auto mainWindow = new View::MainWindow();
     if ((errorCode = mainWindow->Initialization(hInstance)) != S_OK)
     {
         OutputDebugString(((std::wstring)AppName + L": Main Window Initialization Failed, Error Code:" + std::to_wstring(errorCode)).c_str());

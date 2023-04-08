@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 #include "resource.h"
 
-namespace App
+namespace View
 {
     MainWindow* MainWindow::instance;
 
@@ -12,6 +12,7 @@ namespace App
         title = L"Topmost Indication Window";
         hWnd = NULL;
         windowListUtil = new Util::WindowListUtil();
+        notifyIcon = new View::NotifyIcon();
     }
 
     MainWindow::~MainWindow()
@@ -19,6 +20,7 @@ namespace App
         UnregisterKey();
         instance = nullptr;
         delete windowListUtil;
+        delete notifyIcon;
     }
 
     DWORD MainWindow::Initialization(HINSTANCE hInstance)
@@ -27,6 +29,7 @@ namespace App
         if ((errorCode = RegisterWindowClass(hInstance)) != S_OK) return errorCode;
         if ((errorCode = CreateInstance(hInstance)) != S_OK) return errorCode;
         if ((errorCode = RegisterKey()) != S_OK)return errorCode;
+        notifyIcon->ShowNotifyIcon(hInstance, hWnd);
         return S_OK;
     }
 
@@ -70,84 +73,31 @@ namespace App
     {
         switch (message)
         {
-            //     case WM_COMMAND:
-                     //int wmId = LOWORD(wParam);
-                     //// 分析菜单选择:
-                     //switch (wmId)
-                     //{
-                     //case IDM_ABOUT:
-                     //	DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                     //	break;
-                     //case IDM_EXIT:
-                     //	DestroyWindow(hWnd);
-                     //	break;
-                     //default:
-                     //	return DefWindowProc(hWnd, message, wParam, lParam);
-                     //}
-                     //break;
-        case WM_HOTKEY:
-            if (wParam == instance->hotKeyId)
+        case WM_COMMAND:
+            switch (wParam)
             {
-                OutputDebugString(((std::wstring)AppName + L": Pressed Hot Key\r\n").c_str());
-                if (instance != nullptr)
-                {
-                    // 获取鼠标位置
-                    POINT point;
-                    if (GetCursorPos(&point) == FALSE)
-                    {
-                        instance->ShowErrorMessage(L"Get Cursor Position Failed", GetLastError());
-                        return 0;
-                    }
-
-                    // 刷新窗口列表
-                    DWORD result = S_OK;
-                    if ((result = instance->windowListUtil->RefreshWindowList()) != S_OK)
-                    {
-                        instance->ShowErrorMessage(L"Refresh Window List Failed", result);
-                        return 0;
-                    }
-
-                    // 找到鼠标位置处的窗口，置顶/取消置顶窗口
-                    Util::WindowInfo windowInfo;
-                    if (instance->windowListUtil->FindWindowByCursorPosition(point.x, point.y, windowInfo))
-                    {
-                        if ((result = instance->windowListUtil->SetWindowTopmost(windowInfo.Handle, windowInfo.IsTopMost)) != S_OK)
-                        {
-                            instance->ShowErrorMessage(L"Set Window Topmost Failed", result);
-                            return 0;
-                        }
-
-                        auto width = windowInfo.Right - windowInfo.Left;
-                        auto height = windowInfo.Bottom - windowInfo.Top;
-                        // 清除绘制
-                        InvalidateRect(hWnd, NULL, true);
-                        // 重置窗口位置
-                        ShowWindow(hWnd, SW_SHOW);
-                        if ((result = SetWindowPos(hWnd, HWND_TOPMOST, windowInfo.Left, windowInfo.Top, width, height, SWP_SHOWWINDOW)) == FALSE)
-                        {
-                            instance->ShowErrorMessage(L"Set Window Position Failed", GetLastError());
-                        }
-                        // 绘制窗口边框
-                        if (windowInfo.IsTopMost)
-                        {
-                            instance->RedrawWindowBorder(width, height, RGB(127, 127, 127));
-                        }
-                        else
-                        {
-                            instance->RedrawWindowBorder(width, height, RGB(255, 97, 0));
-                        }
-                        // 启动定时器
-                        if (SetTimer(hWnd, instance->timerId, instance->timerInterval, NULL) == FALSE)
-                        {
-                            ShowWindow(hWnd, SW_HIDE);
-                            instance->ShowErrorMessage(L"Set Timer Failed", GetLastError());
-                        }
-                    }
-                }
+            case NotifyHelpId:
+                // DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+                break;
+            case NotifyExitId:
+                DestroyWindow(hWnd);
+                break;
+            default:
+                break;
             }
+            break;
+        case WM_HOTKEY:
+			if (instance != nullptr && wParam == instance->hotKeyId)
+			{
+                OutputDebugString(((std::wstring)AppName + L": Pressed Hot Key\r\n").c_str());
+                instance->SetWindowTopmost();
+			}
             break;
         case WM_TIMER:
             ShowWindow(hWnd, SW_HIDE);
+            break;
+        case NotifyMessageId:
+            instance->ShowNotifyMenu(lParam, hWnd);
             break;
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -175,6 +125,81 @@ namespace App
             return GetLastError();
         }
         return S_OK;
+    }
+
+    void MainWindow::SetWindowTopmost()
+    {
+        // 获取鼠标位置
+        POINT point;
+        if (GetCursorPos(&point) == FALSE)
+        {
+            instance->ShowErrorMessage(L"Get Cursor Position Failed", GetLastError());
+            return;
+        }
+
+        // 刷新窗口列表
+        DWORD result = S_OK;
+        if ((result = instance->windowListUtil->RefreshWindowList()) != S_OK)
+        {
+            instance->ShowErrorMessage(L"Refresh Window List Failed", result);
+            return;
+        }
+
+        // 找到鼠标位置处的窗口，置顶/取消置顶窗口
+        Util::WindowInfo windowInfo;
+        if (instance->windowListUtil->FindWindowByCursorPosition(point.x, point.y, windowInfo))
+        {
+            if ((result = instance->windowListUtil->SetWindowTopmost(windowInfo.Handle, windowInfo.IsTopMost)) != S_OK)
+            {
+                instance->ShowErrorMessage(L"Set Window Topmost Failed", result);
+                return;
+            }
+
+            auto width = windowInfo.Right - windowInfo.Left;
+            auto height = windowInfo.Bottom - windowInfo.Top;
+            // 清除绘制
+            InvalidateRect(hWnd, NULL, true);
+            // 重置窗口位置
+            if ((result = SetWindowPos(hWnd, HWND_TOPMOST, windowInfo.Left, windowInfo.Top, width, height, SWP_SHOWWINDOW)) == FALSE)
+            {
+                instance->ShowErrorMessage(L"Set Window Position Failed", GetLastError());
+            }
+            ShowWindow(hWnd, SW_SHOW);
+            SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+            // 绘制窗口边框
+            if (windowInfo.IsTopMost)
+            {
+                instance->RedrawWindowBorder(width, height, RGB(127, 127, 127));
+            }
+            else
+            {
+                instance->RedrawWindowBorder(width, height, RGB(255, 97, 0));
+            }
+            // 启动定时器
+            if (SetTimer(hWnd, instance->timerId, instance->timerInterval, NULL) == FALSE)
+            {
+                ShowWindow(hWnd, SW_HIDE);
+                instance->ShowErrorMessage(L"Set Timer Failed", GetLastError());
+            }
+        }
+    }
+
+    void MainWindow::ShowNotifyMenu(LPARAM lParam, HWND hWnd)
+    {
+        DWORD result = S_OK;
+        switch (lParam)
+        {
+        case WM_LBUTTONDOWN:
+            break;
+        case WM_RBUTTONDOWN:
+            if ((result = notifyIcon->ShowNotifyMenu(hWnd)) != S_OK)
+            {
+                ShowErrorMessage(L"Show Notify Menu Failed", result);
+            }
+            break;
+        default:
+            break;
+        }
     }
 
     void MainWindow::RedrawWindowBorder(long width, long height, COLORREF color)

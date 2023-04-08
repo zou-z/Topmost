@@ -8,6 +8,9 @@
     <ClCompile Include="WindowListUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
+    <ClCompile Include="NotifyIcon.cpp">
+      <Filter>View</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="View">
@@ -29,6 +32,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="NotifyIcon.h">
+      <Filter>View</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

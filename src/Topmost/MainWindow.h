@@ -2,8 +2,9 @@
 #include <Windows.h>
 #include <string>
 #include "WindowListUtil.h"
+#include "NotifyIcon.h"
 
-namespace App
+namespace View
 {
 	class MainWindow
 	{
@@ -18,6 +19,8 @@ namespace App
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 		DWORD RegisterKey();
 		DWORD UnregisterKey();
+		void SetWindowTopmost();
+		void ShowNotifyMenu(LPARAM lParam, HWND hWnd);
 		void RedrawWindowBorder(long width, long height, COLORREF color);
 		void ShowErrorMessage(std::wstring message, DWORD errorCode);
 
@@ -30,5 +33,6 @@ namespace App
 		const int timerId = 1;          // 关闭窗口定时器id
 		const int timerInterval = 200;  // 关闭窗口定时器延时时间（毫秒）
 		Util::WindowListUtil* windowListUtil;
+		View::NotifyIcon* notifyIcon;
 	};
 }
