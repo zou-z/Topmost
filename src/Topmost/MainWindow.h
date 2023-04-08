@@ -3,6 +3,7 @@
 #include <string>
 #include "WindowListUtil.h"
 #include "NotifyIcon.h"
+#include "HelpWindow.h"
 
 namespace View
 {
@@ -28,11 +29,13 @@ namespace View
 		static MainWindow* instance;
 		std::wstring className;
 		std::wstring title;
+		HINSTANCE hInstance;
 		HWND hWnd;
 		const int hotKeyId = 1;         // 热键id
 		const int timerId = 1;          // 关闭窗口定时器id
 		const int timerInterval = 200;  // 关闭窗口定时器延时时间（毫秒）
 		Util::WindowListUtil* windowListUtil;
 		View::NotifyIcon* notifyIcon;
+		View::HelpWindow* helpWindow;
 	};
 }

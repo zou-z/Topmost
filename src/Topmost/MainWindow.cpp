@@ -10,21 +10,27 @@ namespace View
         instance = this;
         className = L"Topmost";
         title = L"Topmost Indication Window";
+        hInstance = NULL;
         hWnd = NULL;
         windowListUtil = new Util::WindowListUtil();
         notifyIcon = new View::NotifyIcon();
+        helpWindow = new View::HelpWindow();
     }
 
     MainWindow::~MainWindow()
     {
         UnregisterKey();
         instance = nullptr;
+        hInstance = NULL;
+        hWnd = NULL;
         delete windowListUtil;
         delete notifyIcon;
+        delete helpWindow;
     }
 
     DWORD MainWindow::Initialization(HINSTANCE hInstance)
     {
+        this->hInstance = hInstance;
         DWORD errorCode = S_OK;
         if ((errorCode = RegisterWindowClass(hInstance)) != S_OK) return errorCode;
         if ((errorCode = CreateInstance(hInstance)) != S_OK) return errorCode;
@@ -77,11 +83,19 @@ namespace View
             switch (wParam)
             {
             case NotifyHelpId:
-                // DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+            {
+                DWORD result = S_OK;
+                if ((result = instance->helpWindow->Show(instance->hInstance)) != S_OK)
+                {
+                    instance->ShowErrorMessage(L"Open Help Window Failed", result);
+                }
                 break;
+            }
             case NotifyExitId:
+            {
                 DestroyWindow(hWnd);
                 break;
+            }
             default:
                 break;
             }

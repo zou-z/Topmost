@@ -128,11 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="HelpWindow.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="NotifyIcon.cpp" />
     <ClCompile Include="WindowListUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HelpWindow.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="NotifyIcon.h" />
     <ClInclude Include="resource.h" />

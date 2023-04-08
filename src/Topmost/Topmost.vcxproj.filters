@@ -11,6 +11,9 @@
     <ClCompile Include="NotifyIcon.cpp">
       <Filter>View</Filter>
     </ClCompile>
+    <ClCompile Include="HelpWindow.cpp">
+      <Filter>View</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="View">
@@ -34,6 +37,9 @@
       <Filter>Resource</Filter>
     </ClInclude>
     <ClInclude Include="NotifyIcon.h">
+      <Filter>View</Filter>
+    </ClInclude>
+    <ClInclude Include="HelpWindow.h">
       <Filter>View</Filter>
     </ClInclude>
   </ItemGroup>
