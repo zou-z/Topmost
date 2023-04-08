@@ -68,8 +68,12 @@ namespace Util
 		return false;
 	}
 
-	DWORD WindowListUtil::SetWindowTopmost(HWND hWnd)
+	DWORD WindowListUtil::SetWindowTopmost(HWND hWnd, bool isWindowTopmost)
 	{
+		if (SetWindowPos(hWnd, isWindowTopmost ? HWND_NOTOPMOST : HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE) == FALSE)
+		{
+			return GetLastError();
+		}
 		return S_OK;
 	}
 

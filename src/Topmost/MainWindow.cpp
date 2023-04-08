@@ -111,7 +111,7 @@ namespace App
                     Util::WindowInfo windowInfo;
                     if (instance->windowListUtil->FindWindowByCursorPosition(point.x, point.y, windowInfo))
                     {
-                        if ((result = instance->windowListUtil->SetWindowTopmost(windowInfo.Handle)) != S_OK)
+                        if ((result = instance->windowListUtil->SetWindowTopmost(windowInfo.Handle, windowInfo.IsTopMost)) != S_OK)
                         {
                             instance->ShowErrorMessage(L"Set Window Topmost Failed", result);
                             return 0;
@@ -122,6 +122,7 @@ namespace App
                         // 清除绘制
                         InvalidateRect(hWnd, NULL, true);
                         // 重置窗口位置
+                        ShowWindow(hWnd, SW_SHOW);
                         if ((result = SetWindowPos(hWnd, HWND_TOPMOST, windowInfo.Left, windowInfo.Top, width, height, SWP_SHOWWINDOW)) == FALSE)
                         {
                             instance->ShowErrorMessage(L"Set Window Position Failed", GetLastError());

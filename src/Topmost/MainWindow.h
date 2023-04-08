@@ -26,9 +26,9 @@ namespace App
 		std::wstring className;
 		std::wstring title;
 		HWND hWnd;
-		const int hotKeyId = 1;
-		const int timerId = 1;
-		const int timerInterval = 500;
+		const int hotKeyId = 1;         // 热键id
+		const int timerId = 1;          // 关闭窗口定时器id
+		const int timerInterval = 200;  // 关闭窗口定时器延时时间（毫秒）
 		Util::WindowListUtil* windowListUtil;
 	};
 }

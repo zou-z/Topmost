@@ -22,7 +22,7 @@ namespace Util
 		WindowListUtil();
 		DWORD RefreshWindowList();
 		bool FindWindowByCursorPosition(long mouseX, long mouseY, WindowInfo& position);
-		DWORD SetWindowTopmost(HWND hWnd);
+		DWORD SetWindowTopmost(HWND hWnd, bool isWindowTopmost);
 
 	private:
 		DWORD GetTopMostWindowHandle(HWND& hWnd);
