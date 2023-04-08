@@ -2,5 +2,43 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="MainWindow.cpp">
+      <Filter>View</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowListUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="View">
+      <UniqueIdentifier>{1e55ee9c-76b2-4f72-8889-4c791838121b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{655b1a5f-bee4-4e5d-b148-2b776e9e6a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{b1028297-de23-4acb-a6e9-2019cb0fcb5d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainWindow.h">
+      <Filter>View</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowListUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="application.ico">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -78,7 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -106,7 +106,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -128,6 +128,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="WindowListUtil.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="WindowListUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="application.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
