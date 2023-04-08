@@ -126,14 +126,27 @@ namespace App
                         {
                             instance->ShowErrorMessage(L"Set Window Position Failed", GetLastError());
                         }
-                        // draw main window border with corresponding color
-                        instance->RedrawWindowBorder(width, height, RGB(128, 128, 128));
-                        // start hide window timer
-
-
+                        // 绘制窗口边框
+                        if (windowInfo.IsTopMost)
+                        {
+                            instance->RedrawWindowBorder(width, height, RGB(127, 127, 127));
+                        }
+                        else
+                        {
+                            instance->RedrawWindowBorder(width, height, RGB(255, 97, 0));
+                        }
+                        // 启动定时器
+                        if (SetTimer(hWnd, instance->timerId, instance->timerInterval, NULL) == FALSE)
+                        {
+                            ShowWindow(hWnd, SW_HIDE);
+                            instance->ShowErrorMessage(L"Set Timer Failed", GetLastError());
+                        }
                     }
                 }
             }
+            break;
+        case WM_TIMER:
+            ShowWindow(hWnd, SW_HIDE);
             break;
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -165,7 +178,7 @@ namespace App
 
     void MainWindow::RedrawWindowBorder(long width, long height, COLORREF color)
     {
-        int thickness = 5;
+        int thickness = 3;
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
         HPEN pen = CreatePen(PS_SOLID, thickness, color);

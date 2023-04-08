@@ -27,6 +27,8 @@ namespace App
 		std::wstring title;
 		HWND hWnd;
 		const int hotKeyId = 1;
+		const int timerId = 1;
+		const int timerInterval = 500;
 		Util::WindowListUtil* windowListUtil;
 	};
 }
