@@ -90,9 +90,10 @@ namespace App
         case WM_HOTKEY:
             if (wParam == instance->hotKeyId)
             {
-                OutputDebugString(L"-- Pressed Hot Key--\r\n");
+                OutputDebugString(((std::wstring)AppName + L": Pressed Hot Key\r\n").c_str());
                 if (instance != nullptr)
                 {
+                    // 获取鼠标位置
                     POINT point;
                     if (GetCursorPos(&point) == FALSE)
                     {
@@ -100,6 +101,7 @@ namespace App
                         return 0;
                     }
 
+                    // 刷新窗口列表
                     DWORD result = S_OK;
                     if ((result = instance->windowListUtil->RefreshWindowList()) != S_OK)
                     {
@@ -107,6 +109,7 @@ namespace App
                         return 0;
                     }
 
+                    // 找到鼠标位置处的窗口，置顶/取消置顶窗口
                     Util::WindowInfo windowInfo;
                     if (instance->windowListUtil->FindWindowByCursorPosition(point.x, point.y, windowInfo))
                     {
@@ -121,7 +124,10 @@ namespace App
                         // 清除绘制
                         InvalidateRect(hWnd, NULL, true);
                         // 重置窗口位置
-                        SetWindowPos(hWnd, HWND_TOPMOST, windowInfo.Left, windowInfo.Top, width, height, SWP_SHOWWINDOW);
+                        if ((result = SetWindowPos(hWnd, HWND_TOPMOST, windowInfo.Left, windowInfo.Top, width, height, SWP_SHOWWINDOW)) == FALSE)
+                        {
+                            instance->ShowErrorMessage(L"Set Window Position Failed", GetLastError());
+                        }
                         // draw main window border with corresponding color
                         instance->RedrawWindowBorder(width, height, RGB(128, 128, 128));
                         // start hide window timer
@@ -174,10 +180,8 @@ namespace App
 
     void MainWindow::ShowErrorMessage(std::wstring message, DWORD errorCode)
     {
-        std::wstring text = message + std::to_wstring(errorCode);
-        OutputDebugString((text + L"\r\n").c_str());
-
-
-
+        std::wstring text = message + L", Error Code: " + std::to_wstring(errorCode);
+        OutputDebugString(((std::wstring)AppName + text + L"\r\n").c_str());
+        MessageBox(NULL, text.c_str(), AppName, MB_ICONERROR | MB_OK);
     }
 }

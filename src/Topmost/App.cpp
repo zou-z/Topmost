@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include "MainWindow.h"
+#include "resource.h"
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
@@ -11,7 +12,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     auto mainWindow = new App::MainWindow();
     if ((errorCode = mainWindow->Initialization(hInstance)) != S_OK)
     {
-        OutputDebugString((L"Main Window Initialization Failed, Error Code:" + std::to_wstring(errorCode)).c_str());
+        OutputDebugString(((std::wstring)AppName + L": Main Window Initialization Failed, Error Code:" + std::to_wstring(errorCode)).c_str());
         return FALSE;
     }
 
