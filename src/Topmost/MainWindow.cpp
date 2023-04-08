@@ -55,14 +55,12 @@ namespace App
 
     DWORD MainWindow::CreateInstance(HINSTANCE hInstance)
     {
-        hWnd = CreateWindowEx(WS_EX_LAYERED, className.c_str(), title.c_str(), WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, hInstance, nullptr);
+        hWnd = CreateWindowEx(WS_EX_LAYERED | WS_EX_TOOLWINDOW, className.c_str(), title.c_str(), WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, hInstance, nullptr);
         if (hWnd == NULL)
         {
             return GetLastError();
         }
-
-        //ShowWindow(hWnd, SW_HIDE);
-        ShowWindow(hWnd, SW_NORMAL);
+        ShowWindow(hWnd, SW_HIDE);
         UpdateWindow(hWnd);
         SetLayeredWindowAttributes(hWnd, RGB(255, 255, 255), 0, LWA_COLORKEY);
         return S_OK;
