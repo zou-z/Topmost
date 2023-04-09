@@ -15,6 +15,8 @@ namespace View
 		DWORD RegisterWindowClass(HINSTANCE hInstance);
 		DWORD CreateInstance(HINSTANCE hInstance);
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+		void RenderText(HWND hWnd);
+		DWORD GetAppVersion(std::wstring& version);
 
 	private:
 		static HelpWindow* instance;
@@ -23,5 +25,6 @@ namespace View
 		HWND hWnd;
 		bool isRegisterWindowClass;
 		bool isWindowOpened;
+		std::wstring version;
 	};
 }

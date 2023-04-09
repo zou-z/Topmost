@@ -93,6 +93,7 @@ namespace View
             }
             case NotifyExitId:
             {
+                // remove notify icon
                 DestroyWindow(hWnd);
                 break;
             }
@@ -124,7 +125,6 @@ namespace View
 
     DWORD MainWindow::RegisterKey()
     {
-        // Ctrl + Shift + `
         if (RegisterHotKey(hWnd, hotKeyId, MOD_CONTROL | MOD_SHIFT, VK_OEM_3) == FALSE)
         {
             return GetLastError();
