@@ -93,7 +93,7 @@ namespace View
             }
             case NotifyExitId:
             {
-                // remove notify icon
+                instance->notifyIcon->RemoveNotifyIcon(hWnd);
                 DestroyWindow(hWnd);
                 break;
             }

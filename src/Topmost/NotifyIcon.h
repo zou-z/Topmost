@@ -16,6 +16,7 @@ namespace View
 		~NotifyIcon();
 		void ShowNotifyIcon(HINSTANCE hInstance, HWND hWnd);
 		DWORD ShowNotifyMenu(HWND hWnd);
+		void RemoveNotifyIcon(HWND hWnd);
 
 	private:
 		const int notifyId = 1;

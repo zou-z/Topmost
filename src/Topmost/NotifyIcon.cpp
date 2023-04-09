@@ -53,4 +53,12 @@ namespace View
         DestroyMenu(hMenu);
         return S_OK;
 	}
+
+    void NotifyIcon::RemoveNotifyIcon(HWND hWnd)
+    {
+        NOTIFYICONDATA data = {};
+        data.hWnd = hWnd;
+        data.uID = notifyId;
+        Shell_NotifyIcon(NIM_DELETE, &data);
+    }
 }
