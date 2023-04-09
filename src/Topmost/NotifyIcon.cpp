@@ -16,7 +16,7 @@ namespace View
 	{
 		NOTIFYICONDATA data = {};
 		data.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_ICON1);  // 设置图标
-		StringCchCopy(data.szTip, ARRAYSIZE(data.szTip), L"Test application");  // 设置提示文本
+		StringCchCopy(data.szTip, ARRAYSIZE(data.szTip), AppName);  // 设置提示文本
 		data.hWnd = hWnd;  // 设置关联的窗口
 		data.uID = notifyId;  // 设置id
 		data.uFlags = NIF_GUID | NIF_ICON | NIF_MESSAGE | NIF_TIP;  // 设置类型

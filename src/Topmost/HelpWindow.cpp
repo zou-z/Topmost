@@ -134,7 +134,11 @@ namespace View
 		// 获取程序版本
 		if (version.length() <= 0)
 		{
-			GetAppVersion(version);
+			DWORD result = GetAppVersion(version);
+			if (result != S_OK)
+			{
+				OutputDebugString((L"HelpWindow, Get App Version Failed, Error Code: " + std::to_wstring(result)).c_str());
+			}
 		}
 
 		// 绘制文本
@@ -186,5 +190,6 @@ namespace View
 
 		// 释放资源
 		FreeResource(hRes);
+		return S_OK;
 	}
 }
