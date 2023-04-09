@@ -37,6 +37,14 @@ namespace View
         {
             return GetLastError();
         }
+        if (AppendMenu(hMenu, MF_STRING, NotifyStartMenuAddId, NotifyStartMenuAddText) == FALSE)
+        {
+            return GetLastError();
+        }
+        if (AppendMenu(hMenu, MF_STRING, NotifyStartMenuRemoveId, NotifyStartMenuRemoveText) == FALSE)
+        {
+            return GetLastError();
+        }
         if (AppendMenu(hMenu, MF_STRING, NotifyHelpId, NotifyHelpText) == FALSE)
         {
             return GetLastError();

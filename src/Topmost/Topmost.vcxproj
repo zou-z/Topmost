@@ -131,6 +131,7 @@
     <ClCompile Include="HelpWindow.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="NotifyIcon.cpp" />
+    <ClCompile Include="StartMenuUtil.cpp" />
     <ClCompile Include="WindowListUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="NotifyIcon.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="StartMenuUtil.h" />
     <ClInclude Include="WindowListUtil.h" />
   </ItemGroup>
   <ItemGroup>

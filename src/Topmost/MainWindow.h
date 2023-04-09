@@ -4,6 +4,7 @@
 #include "WindowListUtil.h"
 #include "NotifyIcon.h"
 #include "HelpWindow.h"
+#include "StartMenuUtil.h"
 
 namespace View
 {
@@ -35,6 +36,7 @@ namespace View
 		const int timerId = 1;          // 关闭窗口定时器id
 		const int timerInterval = 200;  // 关闭窗口定时器延时时间（毫秒）
 		Util::WindowListUtil* windowListUtil;
+		Util::StartMenuUtil* startMenuUtil;
 		View::NotifyIcon* notifyIcon;
 		View::HelpWindow* helpWindow;
 	};

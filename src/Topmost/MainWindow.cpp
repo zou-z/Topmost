@@ -13,6 +13,7 @@ namespace View
         hInstance = NULL;
         hWnd = NULL;
         windowListUtil = new Util::WindowListUtil();
+        startMenuUtil = new Util::StartMenuUtil();
         notifyIcon = new View::NotifyIcon();
         helpWindow = new View::HelpWindow();
     }
@@ -24,6 +25,7 @@ namespace View
         hInstance = NULL;
         hWnd = NULL;
         delete windowListUtil;
+        delete startMenuUtil;
         delete notifyIcon;
         delete helpWindow;
     }
@@ -82,6 +84,26 @@ namespace View
         case WM_COMMAND:
             switch (wParam)
             {
+            case NotifyStartMenuAddId:
+                if (instance->startMenuUtil->AddToStartMenu())
+                {
+                    MessageBox(NULL, L"Ìí¼Ó³É¹¦", AppName, MB_ICONINFORMATION | MB_OK);
+                }
+                else
+                {
+                    MessageBox(NULL, L"Ìí¼ÓÊ§°Ü", AppName, MB_ICONERROR | MB_OK);
+                }
+                break;
+            case NotifyStartMenuRemoveId:
+                if (instance->startMenuUtil->RemoveFromStartMenu())
+                {
+                    MessageBox(NULL, L"ÒÆ³ý³É¹¦", AppName, MB_ICONINFORMATION | MB_OK);
+                }
+                else
+                {
+                    MessageBox(NULL, L"ÒÆ³ýÊ§°Ü", AppName, MB_ICONERROR | MB_OK);
+                }
+                break;
             case NotifyHelpId:
             {
                 DWORD result = S_OK;

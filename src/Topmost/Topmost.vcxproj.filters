@@ -14,6 +14,9 @@
     <ClCompile Include="HelpWindow.cpp">
       <Filter>View</Filter>
     </ClCompile>
+    <ClCompile Include="StartMenuUtil.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="View">
@@ -41,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="HelpWindow.h">
       <Filter>View</Filter>
+    </ClInclude>
+    <ClInclude Include="StartMenuUtil.h">
+      <Filter>Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
